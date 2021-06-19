@@ -15,6 +15,8 @@ $(document).ready(function(){
       //      break;
         //}
 
+        //En esta parte se reciben mediante ajax los valores para introducirlos posteriormente
+        //en el grafico
         $.ajax({
             url: "https://superheroapi.com/api.php/10159552511154136/" + valueInput,
             success: function(data){
@@ -28,21 +30,9 @@ $(document).ready(function(){
                 let altura = data.appearance.height[1];
                 let peso = data.appearance.weight[1];
                 let alianzas = data.connections.relatives;
+                
 
-                $("#heroinf").html(`
-                    
-                <div class="text-center">
-                    <h3>${nombre}</h3>
-                    <img src="${imagen}">
-                    <h6>Conexiones: ${conexiones}</h6>
-                    <h6>Publicado por: ${publicado}</h6>
-                    <h6>Ocupacion: ${ocupacion}</h6>
-                    <h6>Primera Aparicion: ${primeraAparicion}</h6>
-                    <h6>Altura: ${altura}</h6>
-                    <h6>Peso: ${peso}</h6>
-                </div>`);
-
-            
+                //Aca se define la estructura de Card en donde iran los datos del super hero
                 $("#heroinfo").html(`
                     
             <div class="card mb-3">
@@ -70,7 +60,8 @@ $(document).ready(function(){
                 </div>
             </div>`);
 
-
+              //Aca se reciben los datos y se ingresan en el arreglo estadisticas, para luego
+              //meterlos en el grafico
                 console.log(data.powerstats.combat);
                 let estadisticas = [];
                 estadisticas.push(
@@ -82,7 +73,8 @@ $(document).ready(function(){
                     {y: data.powerstats.combat, label: "Combat" }
                 );
                     console.log(estadisticas);
-                
+                //aca se define la varible config con los valores necesarios 
+                //para  definir el grafico
                     let config = {
                         animationEnabled: true,
                         theme: "light1",
@@ -98,6 +90,7 @@ $(document).ready(function(){
                             dataPoints: estadisticas,
                         },],
                     };
+                    //Finalmente se crea el grafico
                     let chart = new CanvasJS.Chart("herostats",config);
                     chart.render();
                     
